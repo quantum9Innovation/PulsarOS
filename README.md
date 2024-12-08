@@ -22,7 +22,7 @@ As part of my journey into the dangerous, mind-bending terrain of purely functio
 
 Unlike traditional operating systems which rely on non-deterministic package management mechanisms compromised by a myriad of internal states, Nix takes a declarative approach to configuring the entire operating system. It is a Linux distribution that ships with its own package manager that installs packages in a determinstic way by building them in isolation using pure functions known as "derivations."
 
-In NixOS, there is no state. The entire system is derived from a handful of configuration files, which build the system in its entirety. The same configuration can be deployed across multiple machines[^1] and you get identical systems (:thinking: hmmm this sounds like something you might want in a server, right?).
+In NixOS, there is no state. The entire system is derived from a handful of configuration files, which build the system in its entirety. The same configuration can be deployed across multiple machines[^1] and you get identical systems (hmmm :thinking: this sounds like something you might want in a server, right?).
 
 As a Haskell addict, my brain was severely warped from the study of abstraction, and I began to examine some potential theories related to the abstraction of NixOS. You see, NixOS is really an abstraction on top of the Linux kernel. Unlike other distributions, which rely on internal state and therefore are not fully abstracted, NixOS specifies a language for building an operating system.
 
