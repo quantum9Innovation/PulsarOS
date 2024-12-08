@@ -57,7 +57,7 @@
     {
       "zen" = pkgs.linuxPackages_zen;
       "latest" = pkgs.linuxPackages_latest;
-      "hardened" = pkgs.linuxPackages_latest_hardened;  # not recommended
+      "hardened" = pkgs.linuxPackages_latest_hardened; # not recommended
       "libre" = pkgs.linuxPackages_latest-libre;
     }
     .${pulsar.kernel};
