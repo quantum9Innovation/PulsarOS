@@ -2,19 +2,19 @@
   config,
   pkgs,
   inputs,
-  quasar,
+  pulsar,
   ...
 }:
 
 {
 
-  #  /*****                                                 /******   /****
-  #  |*    |  |*   |    **     ****     **    *****        |*    |  /*    *
-  #  |*    |  |*   |   /* *   /*       /* *   |*   |      |*    |  |*
-  #  |*    |  |*   |  /*   *   ****   /*   *  |*   /     |*    |   ******
-  #  |*  * |  |*   |  ******       |  ******  *****     |*    |         |
-  #  |*   *   |*   |  |*   |   *   |  |*   |  |*  *    |*    |   *     |
-  #   **** *   ****   |*   |    ****  |*   |  |*   *   ******    *****
+  # /*****                                                  /******   /****
+  # |*    *|  |*   |  |*       ****     **    *****        |*    |  /*    *
+  # |*    *|  |*   |  |*      /*       /* *   |*   |      |*    |  |*
+  # |*****/   |*   |  |*       ****   /*   *  |*   /     |*    |   ******
+  # |         |*   |  |*           |  ******  *****     |*    |         |
+  # |         |*   |  |*       *   |  |*   |  |*  *    |*    |   *     |
+  # |          ****    *****    ****  |*   |  |*   *   ******    *****
   #
   #  ==========================================================================
 
@@ -22,15 +22,15 @@
   # on your system.
   # Help is available in the configuration.nix(5) man page
   # and in the NixOS manual (accessible by running ‘nixos-help’).
-  # This is the default system configuration that ships with QuasarOS.
-  # Most of it can be modified from the Quasar configuration.
+  # This is the default system configuration that ships with PulsarOS.
+  # Most of it can be modified from the Pulsar configuration.
   # You can also override it by including other custom configuration files
   # and a custom package list.
 
   imports = [
     # Include the results of the hardware scan
-    quasar.hardware
-  ] ++ quasar.overrides;
+    pulsar.hardware
+  ] ++ pulsar.overrides;
 
   # Incorporate hotfixes
   nixpkgs.overlays = [
@@ -50,17 +50,17 @@
   };
 
   # Define your hostname
-  networking.hostName = quasar.hostname;
+  networking.hostName = pulsar.hostname;
 
   # Select kernel
   boot.kernelPackages =
     {
       "zen" = pkgs.linuxPackages_zen;
       "latest" = pkgs.linuxPackages_latest;
-      "hardened" = pkgs.linuxPackages_latest_hardened;
+      "hardened" = pkgs.linuxPackages_latest_hardened;  # not recommended
       "libre" = pkgs.linuxPackages_latest-libre;
     }
-    .${quasar.kernel};
+    .${pulsar.kernel};
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -74,18 +74,18 @@
   services.automatic-timezoned.enable = true;
 
   # Select internationalisation properties
-  i18n.defaultLocale = quasar.locale;
+  i18n.defaultLocale = pulsar.locale;
 
   i18n.extraLocaleSettings = {
-    LC_ADDRESS = quasar.locale;
-    LC_IDENTIFICATION = quasar.locale;
-    LC_MEASUREMENT = quasar.locale;
-    LC_MONETARY = quasar.locale;
-    LC_NAME = quasar.locale;
-    LC_NUMERIC = quasar.locale;
-    LC_PAPER = quasar.locale;
-    LC_TELEPHONE = quasar.locale;
-    LC_TIME = quasar.locale;
+    LC_ADDRESS = pulsar.locale;
+    LC_IDENTIFICATION = pulsar.locale;
+    LC_MEASUREMENT = pulsar.locale;
+    LC_MONETARY = pulsar.locale;
+    LC_NAME = pulsar.locale;
+    LC_NUMERIC = pulsar.locale;
+    LC_PAPER = pulsar.locale;
+    LC_TELEPHONE = pulsar.locale;
+    LC_TIME = pulsar.locale;
   };
 
   # Faster boot times
@@ -100,7 +100,7 @@
   # Enable Wayland support for Electron apps
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
-  # Compatibility for running binaries not packaged for QuasarOS
+  # Compatibility for running binaries not packaged for PulsarOS
   programs.nix-ld = {
     enable = true;
     libraries = [
@@ -119,8 +119,8 @@
       wayland.enable = true;
       package = pkgs.kdePackages.sddm;
     };
-    autoLogin.enable = quasar.autoLogin;
-    autoLogin.user = if quasar.autoLogin then quasar.user else null;
+    autoLogin.enable = pulsar.autoLogin;
+    autoLogin.user = if pulsar.autoLogin then pulsar.user else null;
   };
 
   # Enable CUPS to print documents
@@ -135,16 +135,16 @@
     alsa.support32Bit = true;
     pulse.enable = true;
 
-    # If you want to use JACK applications, set `quasar.audio.jack` to true
-    jack.enable = quasar.audio.jack;
+    # If you want to use JACK applications, set `pulsar.audio.jack` to true
+    jack.enable = pulsar.audio.jack;
   };
 
   # Define a user account
   # Don't forget to set a password with `passwd`
   programs.fish.enable = true;
-  users.users.${quasar.user} = {
+  users.users.${pulsar.user} = {
     isNormalUser = true;
-    description = quasar.name;
+    description = pulsar.name;
     extraGroups = [
       "networkmanager"
       "wheel"
@@ -158,7 +158,7 @@
   nix.settings = {
     trusted-users = [
       "root"
-      quasar.user
+      pulsar.user
     ];
     experimental-features = [
       "nix-command"
@@ -191,7 +191,7 @@
       inxi
       brightnessctl
     ]
-    ++ (quasar.systemPackages pkgs);
+    ++ (pulsar.systemPackages pkgs);
 
   # Git is an essential system package
   programs.git.enable = true;
@@ -201,7 +201,7 @@
     enable = true;
     clean.enable = true;
     clean.extraArgs = "--keep-since 14d --keep 12";
-    flake = quasar.flake;
+    flake = pulsar.flake;
   };
 
   # Set default editor, among other things
@@ -228,14 +228,14 @@
   # Setup GnuPG
   programs.gnupg.agent = {
     enable = true;
-    enableSSHSupport = quasar.ssh.enabled;
+    enableSSHSupport = pulsar.ssh.enabled;
   };
 
   # Enable the OpenSSH daemon
-  services.openssh.enable = quasar.ssh.enabled;
+  services.openssh.enable = pulsar.ssh.enabled;
 
   # Ollama
-  services.ollama.enable = true;
+  services.ollama.enable = pulsar.ollama;
   services.ollama.acceleration = "cuda";
 
   # Setup Dconf for user configuration of low-level settings
@@ -244,7 +244,7 @@
 
   # Enable Docker for hardware virtualization
   virtualisation.docker.enable = true;
-  hardware.nvidia-container-toolkit.enable = quasar.graphics.nvidia.enabled;
+  hardware.nvidia-container-toolkit.enable = pulsar.graphics.nvidia.enabled;
 
   # This value determines the NixOS release from which the default settings
   # for stateful data, like file locations and database versions
@@ -253,16 +253,16 @@
   # version of the first install of this system.
   # Before changing this value, read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = quasar.stateVersion; # Did you read the comment?
+  system.stateVersion = pulsar.stateVersion; # Did you read the comment?
 
   # Enable OpenGL for optimal graphics performance
-  hardware.graphics.enable = quasar.graphics.opengl;
+  hardware.graphics.enable = pulsar.graphics.opengl;
 
   # Install and configure appropriate NVIDIA drivers
   # Do not attempt to disable unfree software packages if you enable this
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia =
-    if quasar.graphics.nvidia.enabled then
+    if pulsar.graphics.nvidia.enabled then
       {
         package = config.boot.kernelPackages.nvidiaPackages.stable;
         modesetting.enable = true;
@@ -275,8 +275,8 @@
             enable = true;
             enableOffloadCmd = true;
           };
-          intelBusId = quasar.graphics.nvidia.intelBusId;
-          nvidiaBusId = quasar.graphics.nvidia.nvidiaBusId;
+          intelBusId = pulsar.graphics.nvidia.intelBusId;
+          nvidiaBusId = pulsar.graphics.nvidia.nvidiaBusId;
         };
       }
     else

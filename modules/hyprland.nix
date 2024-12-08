@@ -1,6 +1,6 @@
-quasar:
+pulsar:
 let
-  hyprland = quasar.hyprland;
+  hyprland = pulsar.hyprland;
   default =
     mod: attr: fallback:
     if builtins.hasAttr attr mod then mod.${attr} else fallback;
@@ -8,18 +8,18 @@ let
 in
 {
 
-  #  /*****                                                 /******   /****
-  #  |*    |  |*   |    **     ****     **    *****        |*    |  /*    *
-  #  |*    |  |*   |   /* *   /*       /* *   |*   |      |*    |  |*
-  #  |*    |  |*   |  /*   *   ****   /*   *  |*   /     |*    |   ******
-  #  |*  * |  |*   |  ******       |  ******  *****     |*    |         |
-  #  |*   *   |*   |  |*   |   *   |  |*   |  |*  *    |*    |   *     |
-  #   **** *   ****   |*   |    ****  |*   |  |*   *   ******    *****
+  # /*****                                                  /******   /****
+  # |*    *|  |*   |  |*       ****     **    *****        |*    |  /*    *
+  # |*    *|  |*   |  |*      /*       /* *   |*   |      |*    |  |*
+  # |*****/   |*   |  |*       ****   /*   *  |*   /     |*    |   ******
+  # |         |*   |  |*           |  ******  *****     |*    |         |
+  # |         |*   |  |*       *   |  |*   |  |*  *    |*    |   *     |
+  # |          ****    *****    ****  |*   |  |*   *   ******    *****
   #
   #  ==========================================================================
 
-  # This is the default Hyrpland configuration that ships with QuasarOS.
-  # It should be modified from the Quasar configuration, not here.
+  # This is the default Hyrpland configuration that ships with PulsarOS.
+  # It should be modified from the Pulsar configuration, not here.
 
   exec-once = [
     "swww-daemon; swww restore;"

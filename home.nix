@@ -1,4 +1,4 @@
-quasar: hyprPlugins: pack:
+pulsar: hyprPlugins: pack:
 {
   pkgs,
   ...
@@ -6,13 +6,13 @@ quasar: hyprPlugins: pack:
 
 {
 
-  #  /*****                                                 /******   /****
-  #  |*    |  |*   |    **     ****     **    *****        |*    |  /*    *
-  #  |*    |  |*   |   /* *   /*       /* *   |*   |      |*    |  |*
-  #  |*    |  |*   |  /*   *   ****   /*   *  |*   /     |*    |   ******
-  #  |*  * |  |*   |  ******       |  ******  *****     |*    |         |
-  #  |*   *   |*   |  |*   |   *   |  |*   |  |*  *    |*    |   *     |
-  #   **** *   ****   |*   |    ****  |*   |  |*   *   ******    *****
+  # /*****                                                  /******   /****
+  # |*    *|  |*   |  |*       ****     **    *****        |*    |  /*    *
+  # |*    *|  |*   |  |*      /*       /* *   |*   |      |*    |  |*
+  # |*****/   |*   |  |*       ****   /*   *  |*   /     |*    |   ******
+  # |         |*   |  |*           |  ******  *****     |*    |         |
+  # |         |*   |  |*       *   |  |*   |  |*  *    |*    |   *     |
+  # |          ****    *****    ****  |*   |  |*   *   ******    *****
   #
   #  ==========================================================================
 
@@ -20,13 +20,13 @@ quasar: hyprPlugins: pack:
   # on your system.
   # Help is available in the Home Manager manual
   # (see https://nix-community.github.io/home-manager/).
-  # This is the default user configuration that ships with QuasarOS.
-  # Most of it can be modified from the Quasar configuration.
+  # This is the default server configuration that ships with PulsarOS.
+  # Most of it can be modified from the Pulsar configuration.
   # You can also override it by including other custom configuration files,
   # which is how you should install packages.
 
-  home.username = quasar.user;
-  home.homeDirectory = "/home/${quasar.user}";
+  home.username = pulsar.user;
+  home.homeDirectory = "/home/${pulsar.user}";
 
   # link the configuration file in current directory to the specified location in home directory
   # home.file.".config/i3/wallpaper.jpg".source = ./wallpaper.jpg;
@@ -67,13 +67,12 @@ quasar: hyprPlugins: pack:
     with pkgs;
     [
       # essential
-      brave
       firefox
       thunderbird
       zettlr
       fastfetch
       nemo
-      muffon
+      mpv
 
       # archives
       zip
@@ -83,7 +82,6 @@ quasar: hyprPlugins: pack:
       fzf
       bat
       nodePackages.live-server
-      speechd # needed for zen browser and firefox speech features
 
       # system monitoring
       nix-output-monitor
@@ -92,9 +90,6 @@ quasar: hyprPlugins: pack:
       # wayland desktop utils
       wl-clipboard
       rofi-wayland
-
-      # messaging apps
-      signal-desktop
 
       # ricing
       swww
@@ -109,17 +104,17 @@ quasar: hyprPlugins: pack:
       delta
       lazygit
       micro
-      (if quasar.graphics.nvidia.enabled then zedGPU else zed-editor)
+      (if pulsar.graphics.nvidia.enabled then zedGPU else zed-editor)
       nixd
       nil
     ]
-    ++ (quasar.homePackages pkgs)
+    ++ (pulsar.homePackages pkgs)
     ++ pack;
 
   wayland.windowManager.hyprland = {
     enable = true;
     plugins = [ hyprPlugins.hyprscroller ];
-    settings = import ./modules/hyprland.nix quasar;
+    settings = import ./modules/hyprland.nix pulsar;
   };
 
   services.dunst = {
@@ -134,7 +129,6 @@ quasar: hyprPlugins: pack:
     enable = true;
   };
 
-  programs.gh.enable = true;
   programs.fzf.enable = true;
   programs.wlogout.enable = true;
   programs.lazygit.enable = true;
@@ -164,8 +158,8 @@ quasar: hyprPlugins: pack:
 
   programs.git = {
     enable = true;
-    userName = if builtins.hasAttr "name" quasar.git then quasar.git.name else quasar.name;
-    userEmail = quasar.git.email;
+    userName = if builtins.hasAttr "name" pulsar.git then pulsar.git.name else pulsar.name;
+    userEmail = pulsar.git.email;
     delta.enable = true;
     extraConfig = {
       init.defaultBranch = "main";
@@ -339,7 +333,7 @@ quasar: hyprPlugins: pack:
 
   programs.chromium.commandLineArgs = "--enable-features=UseOzonePlatform --ozone-platform=wayland";
 
-  home.stateVersion = quasar.stateVersion;
+  home.stateVersion = pulsar.stateVersion;
   programs.home-manager.enable = true;
 
   xdg.mimeApps = {

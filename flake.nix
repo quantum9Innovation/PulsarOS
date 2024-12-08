@@ -1,31 +1,26 @@
 {
 
-  #  /*****                                                 /******   /****
-  #  |*    |  |*   |    **     ****     **    *****        |*    |  /*    *
-  #  |*    |  |*   |   /* *   /*       /* *   |*   |      |*    |  |*
-  #  |*    |  |*   |  /*   *   ****   /*   *  |*   /     |*    |   ******
-  #  |*  * |  |*   |  ******       |  ******  *****     |*    |         |
-  #  |*   *   |*   |  |*   |   *   |  |*   |  |*  *    |*    |   *     |
-  #   **** *   ****   |*   |    ****  |*   |  |*   *   ******    *****
+  # /*****                                                  /******   /****
+  # |*    *|  |*   |  |*       ****     **    *****        |*    |  /*    *
+  # |*    *|  |*   |  |*      /*       /* *   |*   |      |*    |  |*
+  # |*****/   |*   |  |*       ****   /*   *  |*   /     |*    |   ******
+  # |         |*   |  |*           |  ******  *****     |*    |         |
+  # |         |*   |  |*       *   |  |*   |  |*  *    |*    |   *     |
+  # |          ****    *****    ****  |*   |  |*   *   ******    *****
   #
   #  ==========================================================================
 
-  # This is the default QuasarOS system configuration flake.
-  # It is the entry point for all QuasarOS-based systems.
+  # This is the default PulsarOS system configuration flake.
+  # It is the entry point for all PulsarOS-based systems.
   # You should include a specific version of this flake as an input
   # in your system configuration flake and then use the provided `make`
-  # function to build your system using your own Quasar configuration.
-  description = "QuasarOS system configuration flake";
+  # function to build your system using your own Pulsar configuration.
+  description = "PulsarOS system configuration flake";
 
   inputs = {
-    # QuasarOS uses the nixpkgs unstable channel,
-    # so new package updates are always immediately available.
-    # Many user packages are also built directly
-    # from the latest stable git source,
-    # usually the last commit on the `main` branch.
-    # This is the recommended way to install user packages
-    # which are not critical for system functionality on QuasarOS.
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    # PulsarOS uses the latest nixpkgs channel,
+    # so new (but somewhat? stable) packages are used by default.
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11-small";
 
     # For incorporating hotfixes
     nixpkgs-upstream.url = "github:nixos/nixpkgs/nixos-unstable-small";
@@ -50,6 +45,8 @@
     # Incorrect Lanzaboote configurations could lead to an unbootable OS.
     # Lanzaboote is a critical system package
     # and is pinned to a specific release.
+    # Enabling secure boot is not recommended for servers,
+    # but can be done anyway with appropriate configuration.
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v0.4.1";
 
@@ -79,14 +76,14 @@
           system ? "x86_64-linux",
           kernel ? "zen",
           secureboot ? {
-            enabled = true;
+            enabled = false;
           },
-          stateVersion ? "24.05",
+          stateVersion ? "24.11",
           systemPackages,
           homePackages,
           autoLogin ? true,
           ssh ? {
-            enabled = false;
+            enabled = true;
           },
           locale ? "en_US.UTF-8",
           hyprland ? {
@@ -95,7 +92,7 @@
           graphics ? {
             opengl = true;
             nvidia = {
-              enabled = true;
+              enabled = false;
               intelBusId = null;
               nvidiaBusId = null;
             };
@@ -105,8 +102,9 @@
           },
           overrides ? [ ],
           homeOverrides ? [ ],
+          ollama ? false,
           ...
-        }@quasar:
+        }@pulsar:
         let
           # Secure boot configuration
           secureBoot = [
@@ -160,7 +158,7 @@
                     ];
                   in
                   [
-                    (import ./home.nix quasar nixpkgs-upstream.legacyPackages.${system}.hyprlandPlugins pack)
+                    (import ./home.nix pulsar nixpkgs-upstream.legacyPackages.${system}.hyprlandPlugins pack)
                   ]
                   ++ homeOverrides;
               };
@@ -175,7 +173,7 @@
             # Forward external configurations to declared modules
             specialArgs = {
               inherit inputs;
-              inherit quasar;
+              inherit pulsar;
             };
 
             # Official support is currently for x86_64-linux only
