@@ -33,7 +33,7 @@
     # Home Manager is a critical system package
     # and is pinned to a specific release.
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
