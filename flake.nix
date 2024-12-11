@@ -37,10 +37,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Up-and-coming packages that have yet to be merged into nixpkgs at any level;
-    # this is the bleeding edge of software development
-    zen-browser.url = "github:youwen5/zen-browser-flake";
-
     # Lanzaboote is needed for NixOS to work when secure boot is enabled.
     # Incorrect Lanzaboote configurations could lead to an unbootable OS.
     # Lanzaboote is a critical system package
@@ -61,7 +57,6 @@
       nixpkgs,
       nixpkgs-upstream,
       home-manager,
-      zen-browser,
       lanzaboote,
       ...
     }@inputs:
@@ -153,9 +148,7 @@
                 # Primary user Home Manager configuration module
                 imports =
                   let
-                    pack = [
-                      zen-browser.packages."${system}".default
-                    ];
+                    pack = [ ];
                   in
                   [
                     (import ./home.nix pulsar nixpkgs-upstream.legacyPackages.${system}.hyprlandPlugins pack)
