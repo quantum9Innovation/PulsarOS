@@ -154,7 +154,7 @@
                 imports =
                   let
                     pack = [
-                      zen-browser.packages."${system}".specific
+                      zen-browser.packages."${system}".default
                     ];
                   in
                   [
