@@ -248,6 +248,11 @@
     notificationSender = "hydra@localhost";
     buildMachinesFiles = [ ];
     useSubstitutes = true;
+    extraConfig = ''
+      <git-input>
+        timeout = 3600
+      </git-input>
+    '';
   };
 
   # Setup Dconf for user configuration of low-level settings
