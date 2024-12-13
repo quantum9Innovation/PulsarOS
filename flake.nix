@@ -102,6 +102,7 @@
             enabled = false;
             port = "3000";
           },
+          cachix ? false,
           ...
         }@pulsar:
         let
@@ -132,35 +133,44 @@
           ];
 
           # Modules without conditional add-ons
-          baseModules = [
-            # Primary system configuration module
-            ./configuration.nix
+          baseModules =
+            (
+              if pulsar.cachix then
+                [
+                  ./modules/cachix.nix
+                ]
+              else
+                [ ]
+            )
+            ++ [
+              # Primary system configuration module
+              ./configuration.nix
 
-            # Home Manager setup
-            home-manager.nixosModules.home-manager
-            {
-              # Install from preconfigured nixpkgs channel
-              home-manager.useGlobalPkgs = true;
+              # Home Manager setup
+              home-manager.nixosModules.home-manager
+              {
+                # Install from preconfigured nixpkgs channel
+                home-manager.useGlobalPkgs = true;
 
-              # Enable user packages for `nixos-rebuild build-vm`
-              home-manager.useUserPackages = true;
+                # Enable user packages for `nixos-rebuild build-vm`
+                home-manager.useUserPackages = true;
 
-              # Home Manager backup files will end in .backup
-              home-manager.backupFileExtension = "backup";
+                # Home Manager backup files will end in .backup
+                home-manager.backupFileExtension = "backup";
 
-              home-manager.users.${user} = {
-                # Primary user Home Manager configuration module
-                imports =
-                  let
-                    pack = [ ];
-                  in
-                  [
-                    (import ./home.nix pulsar nixpkgs-upstream.legacyPackages.${system}.hyprlandPlugins pack)
-                  ]
-                  ++ homeOverrides;
-              };
-            }
-          ];
+                home-manager.users.${user} = {
+                  # Primary user Home Manager configuration module
+                  imports =
+                    let
+                      pack = [ ];
+                    in
+                    [
+                      (import ./home.nix pulsar nixpkgs-upstream.legacyPackages.${system}.hyprlandPlugins pack)
+                    ]
+                    ++ homeOverrides;
+                };
+              }
+            ];
 
           # Modules with conditional add-ons
           modules = if secureboot.enabled then baseModules ++ secureBoot else baseModules;

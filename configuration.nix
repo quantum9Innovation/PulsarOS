@@ -156,6 +156,11 @@
   # More user configuration
   nix.optimise.automatic = true;
   nix.settings = {
+    allowed-uris = [
+      "github:"
+      "git+https://github.com/"
+      "git+ssh://github.com/"
+    ];
     trusted-users = [
       "root"
       pulsar.user
