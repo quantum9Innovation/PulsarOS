@@ -40,7 +40,6 @@ in
     "$mod, ${hypr "browserKey" "B"}, exec, ${hypr "browser" "firefox"}"
     "$mod, ${hypr "termKey" "Q"}, exec, ${hypr "term" "kitty"}"
     "$mod, ${hypr "fileKey" "E"}, exec, ${hypr "file" "nemo"}"
-    "$mod, ${hypr "mailKey" "U"}, exec, ${hypr "mail" "thunderbird"}"
     "$mod, ${hypr "docKey" "Z"}, exec, ${hypr "doc" "zettlr"}"
 
     # Window actions

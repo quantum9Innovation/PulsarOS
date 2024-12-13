@@ -68,7 +68,6 @@ pulsar: hyprPlugins: pack:
     [
       # essential
       firefox
-      thunderbird
       zettlr
       fastfetch
       nemo
