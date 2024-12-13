@@ -98,6 +98,10 @@
           overrides ? [ ],
           homeOverrides ? [ ],
           ollama ? false,
+          hydra ? {
+            enabled = false;
+            port = "3000";
+          },
           ...
         }@pulsar:
         let

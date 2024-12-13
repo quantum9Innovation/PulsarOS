@@ -190,6 +190,7 @@
       pavucontrol
       inxi
       brightnessctl
+      treefmt2
     ]
     ++ (pulsar.systemPackages pkgs);
 
@@ -235,8 +236,19 @@
   services.openssh.enable = pulsar.ssh.enabled;
 
   # Ollama
-  services.ollama.enable = pulsar.ollama;
-  services.ollama.acceleration = "cuda";
+  services.ollama = {
+    enable = pulsar.ollama;
+    acceleration = "cuda";
+  };
+
+  # Hydra
+  services.hydra = {
+    enable = pulsar.hydra;
+    hydraURL = "http://localhost:${pulsar.port}";
+    notificationSender = "hydra@localhost";
+    buildMachinesFiles = [ ];
+    useSubstitutes = true;
+  };
 
   # Setup Dconf for user configuration of low-level settings
   # Also needed as a dependency for critical system packages
