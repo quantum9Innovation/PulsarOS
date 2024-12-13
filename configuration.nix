@@ -243,8 +243,8 @@
 
   # Hydra
   services.hydra = {
-    enable = pulsar.hydra;
-    hydraURL = "http://localhost:${pulsar.port}";
+    enable = pulsar.hydra.enabled;
+    hydraURL = "http://localhost:${pulsar.hydra.port}";
     notificationSender = "hydra@localhost";
     buildMachinesFiles = [ ];
     useSubstitutes = true;
