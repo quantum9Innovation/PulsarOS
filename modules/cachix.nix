@@ -1,4 +1,4 @@
-{
+pulsar: {
   pkgs,
   ...
 }:
@@ -16,7 +16,7 @@ let
     fi
 
     export HOME=/root
-    exec ${pkgs.cachix}/bin/cachix -c /etc/cachix/cachix.dhall push mycache $OUT_PATHS > /tmp/hydra_cachix 2>&1
+    exec ${pkgs.cachix}/bin/cachix -c /etc/cachix/cachix.dhall push ${pulsar.cache} $OUT_PATHS > /tmp/hydra_cachix 2>&1
   '';
 in
 {

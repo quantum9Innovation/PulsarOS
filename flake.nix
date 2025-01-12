@@ -137,7 +137,7 @@
             (
               if pulsar.cachix then
                 [
-                  ./modules/cachix.nix
+                  (import ./modules/cachix.nix pulsar)
                 ]
               else
                 [ ]
