@@ -302,7 +302,7 @@
         };
       }
     else
-      null;
+      { open = true; };
 
   fonts = {
     enableDefaultPackages = true;
